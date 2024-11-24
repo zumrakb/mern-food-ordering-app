@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import Auth0ProviderWithNavigate from "./auth/Auth0ProviderWithNavigate";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +22,8 @@ createRoot(document.getElementById("root")!).render(
         {/* now our entire app has access hooks from react-query */}
         <Auth0ProviderWithNavigate>
           <AppRoutes />
+          <Toaster visibleToasts={1} position="top-right" richColors />{" "}
+          {/* toast notifications */}
         </Auth0ProviderWithNavigate>
       </QueryClientProvider>
     </Router>
