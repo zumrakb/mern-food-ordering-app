@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -18,21 +18,29 @@ import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().optional(),
-  name: z.string().min(1, "Name is required."),
-  addressLine1: z.string().min(1, "Address Line 1 is required."),
-  city: z.string().min(1, "City is required."),
-  country: z.string().min(1, "Country is required."),
+  name: z.string().min(1, "name is required"),
+  addressLine1: z.string().min(1, "Address Line 1 is required"),
+  city: z.string().min(1, "City is required"),
+  country: z.string().min(1, "Country is required"),
 });
 
-type UserFormData = z.infer<typeof formSchema>;
+export type UserFormData = z.infer<typeof formSchema>;
 
 type Props = {
   currentUser: User;
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
+  title?: string;
+  buttonText?: string;
 };
 
-const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
+const UserProfileForm = ({
+  onSave,
+  isLoading,
+  currentUser,
+  title = "User Profile",
+  buttonText = "Submit",
+}: Props) => {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: currentUser,
@@ -46,15 +54,14 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSave)}
-        className="space-y-4 rounded-lg md:py-10 max-w-md mx-auto md:max-w-4xl lg:max-w-7xl bg-gray-50"
+        className="space-y-4 bg-gray-50 rounded-lg md:p-10"
       >
         <div>
-          <h2 className="text-2xl font-bold">User Profile Form</h2>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
         </div>
-
         <FormField
           control={form.control}
           name="email"
@@ -77,8 +84,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
               <FormControl>
                 <Input {...field} className="bg-white" />
               </FormControl>
-              <FormMessage />{" "}
-              {/* display messages whatever touch that fields */}
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -128,7 +134,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
           <LoadingButton />
         ) : (
           <Button type="submit" className="bg-orange-500">
-            Submit
+            {buttonText}
           </Button>
         )}
       </form>
