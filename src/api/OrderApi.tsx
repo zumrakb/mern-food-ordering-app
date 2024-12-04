@@ -58,6 +58,8 @@ export const useCreateCheckoutSession = () => {
   ) => {
     const accessToken = await getAccessTokenSilently();
 
+    console.log("Access Token: bak", accessToken);
+
     const response = await fetch(
       `${API_BASE_URL}/api/order/checkout/create-checkout-session`,
       {
